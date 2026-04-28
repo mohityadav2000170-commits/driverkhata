@@ -18,9 +18,11 @@ from django.contrib import admin
 from django.urls import include, path
 from django.urls import include, path
 from django.contrib import admin
+from khata.views import EntryDeleteView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('khata.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('delete/<int:pk>/', EntryDeleteView.as_view(), name='delete'),
 ]

@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
 from django.urls import reverse_lazy
 from .models import Entry
+from django.views.generic import DeleteView
 
 class DashboardView(LoginRequiredMixin, ListView):
     model = Entry
@@ -36,3 +37,11 @@ class EntryCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+
+class EntryDeleteView(LoginRequiredMixin, DeleteView):
+    model = Entry
+    success_url = '/'
+
+    def get_queryset(self):
+        return Entry.objects.filter(user=self.request.user)  

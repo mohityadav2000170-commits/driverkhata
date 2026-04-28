@@ -18,6 +18,11 @@
         <p style="color:red;">- ₹{{ e.amount }}</p>
     {% endif %}
     <small>{{ e.date }}</small>
+    <!-- 🔥 DELETE BUTTON -->
+    <form action="/delete/{{ e.id }}/" method="post" style="margin-top:10px;">
+        {% csrf_token %}
+        <button style="background:red; color:white;">Delete</button>
+    </form>
 </div>
 {% endfor %}
 
