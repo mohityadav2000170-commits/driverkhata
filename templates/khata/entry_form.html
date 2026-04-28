@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card">
+    <h2>Add Entry</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button style="width:100%; padding:10px; background:green; color:white;">
+            Save
+        </button>
+    </form>
+</div>
+
+{% endblock %}
