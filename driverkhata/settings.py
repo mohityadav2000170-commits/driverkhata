@@ -71,6 +71,10 @@ TEMPLATES = [
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
+# Auth redirect settings
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
+
 WSGI_APPLICATION = 'driverkhata.wsgi.application'
 
 

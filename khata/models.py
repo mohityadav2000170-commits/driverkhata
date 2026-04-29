@@ -14,6 +14,7 @@ class Entry(models.Model):
     type = models.CharField(max_length=10, choices=ENTRY_TYPE)
     note = models.CharField(max_length=200, blank=True)
     date = models.DateTimeField(auto_now_add=True)
+    phone = models.CharField(max_length=15) # New field for phone number
 
     def __str__(self):
         return f"{self.type} - {self.amount}"

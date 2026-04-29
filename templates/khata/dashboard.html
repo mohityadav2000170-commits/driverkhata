@@ -2,28 +2,69 @@
 
 {% block content %}
 
-<div class="card">
-    <h2>Driver Balance</h2>
-    <h1>₹ {{ balance }}</h1>
-    <p>Added: ₹{{ total_add }} | Paid: ₹{{ total_pay }}</p>
+<!-- 🔥 BALANCE CARD -->
+<div class="card" style="text-align:center;">
+    <h3>Current Balance</h3>
+    <h1 style="color:#2e7d32;">₹ {{ balance }}</h1>
 </div>
 
-<a href="/add/" class="fab">+</a>
+<!-- 📊 SUMMARY -->
+<div class="card" style="display:flex; justify-content:space-between;">
 
-{% for e in object_list %}
-<div class="card">
-    {% if e.type == "ADD" %}
-        <p style="color:green;">+ ₹{{ e.amount }}</p>
-    {% else %}
-        <p style="color:red;">- ₹{{ e.amount }}</p>
-    {% endif %}
-    <small>{{ e.date }}</small>
-    <!-- 🔥 DELETE BUTTON -->
-    <form action="/delete/{{ e.id }}/" method="post" style="margin-top:10px;">
-        {% csrf_token %}
-        <button style="background:red; color:white;">Delete</button>
-    </form>
+    <div>
+        <p style="color:red;">Debit</p>
+        <h3>₹ {{ total_add }}</h3>
+    </div>
+
+    <div>
+        <p style="color:green;">Credit</p>
+        <h3>₹ {{ total_pay }}</h3>
+    </div>
+
 </div>
+
+<!-- 📋 LEDGER TABLE -->
+<div class="card">
+
+<table style="width:100%; border-collapse: collapse; text-align:center;">
+
+<tr style="background:#eee;">
+    <th>Date</th>
+    <th>Note</th>
+    <th>Debit</th>
+    <th>Credit</th>
+    <th>Balance</th>
+    <th></th>
+</tr>
+
+{% for item in running_data %}
+<tr style="border-bottom:1px solid #ddd;">
+
+    <td>{{ item.entry.date|date:"d M" }}</td>
+    <td>{{ item.entry.note }}</td>
+
+    <td style="color:red;">
+        {% if item.debit %}₹{{ item.debit }}{% else %}-{% endif %}
+    </td>
+
+    <td style="color:green;">
+        {% if item.credit %}₹{{ item.credit }}{% else %}-{% endif %}
+    </td>
+
+    <td><strong>₹{{ item.balance }}</strong></td>
+
+    <td>
+        <form action="/delete/{{ item.entry.id }}/" method="post">
+            {% csrf_token %}
+            <button style="border:none; background:none;">🗑️</button>
+        </form>
+    </td>
+
+</tr>
 {% endfor %}
+
+</table>
+
+</div>
 
 {% endblock %}

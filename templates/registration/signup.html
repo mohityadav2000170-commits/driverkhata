@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login</title>
+    <title>Signup</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Icons -->
@@ -100,12 +100,12 @@
             margin-bottom: 10px;
         }
 
-        .signup-link {
+        .login-link {
             text-align: center;
             margin-top: 10px;
         }
 
-        .signup-link a {
+        .login-link a {
             color: #2e7d32;
             text-decoration: none;
             font-weight: bold;
@@ -126,11 +126,11 @@
 
 <div class="card">
 
-    <h2>Login</h2>
+    <h2>Signup</h2>
 
     {% if form.errors %}
         <div class="error">
-            Invalid username or password
+            Please fix the errors below
         </div>
     {% endif %}
 
@@ -145,24 +145,31 @@
 
         <!-- Password -->
         <div class="field">
-            <input type="password" id="pass" name="password" required placeholder=" ">
+            <input type="password" id="pass1" name="password1" required placeholder=" ">
             <label>Password</label>
-            <i class="fa-solid fa-eye eye" onclick="togglePass()"></i>
+            <i class="fa-solid fa-eye eye" onclick="togglePass('pass1')"></i>
         </div>
 
-        <button type="submit">Login</button>
+        <!-- Confirm Password -->
+        <div class="field">
+            <input type="password" id="pass2" name="password2" required placeholder=" ">
+            <label>Confirm Password</label>
+            <i class="fa-solid fa-eye eye" onclick="togglePass('pass2')"></i>
+        </div>
+
+        <button type="submit">Create Account</button>
     </form>
 
-    <div class="signup-link">
-        <p>Don't have an account?</p>
-        <a href="/signup/">Create Account</a>
+    <div class="login-link">
+        <p>Already have an account?</p>
+        <a href="/accounts/login/">Login</a>
     </div>
 
 </div>
 
 <script>
-function togglePass() {
-    let input = document.getElementById("pass");
+function togglePass(id) {
+    let input = document.getElementById(id);
     input.type = input.type === "password" ? "text" : "password";
 }
 
