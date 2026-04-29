@@ -8,6 +8,7 @@ from .models import Entry
 from django.views.generic import DeleteView 
 from django.contrib.auth.forms import UserCreationForm
 from urllib.parse import quote
+from django.shortcuts import redirect
 
 class DashboardView(LoginRequiredMixin, ListView):
     model = Entry
@@ -59,23 +60,27 @@ class EntryCreateView(LoginRequiredMixin, CreateView):
 
         amount = form.cleaned_data['amount']
         type = form.cleaned_data['type']
-        phone = form.cleaned_data['phone']
+        phone = form.cleaned_data.get('phone')
 
-        if type == "ADD":
-            msg = f"You need to pay ₹{amount}"
-        else:
-            msg = f"You paid ₹{amount}"
+        # Save first
+        response = super().form_valid(form)
 
-        # Encode message
-        message = quote(msg)
+        # ✅ Only send WhatsApp if phone is filled
+        if phone:
+            if type == "ADD":
+                msg = f"You need to pay ₹{amount}"
+            else:
+                msg = f"You paid ₹{amount}"
 
-        # WhatsApp link
-        self.whatsapp_url = f"https://wa.me/{phone}?text={message}"
+            message = quote(msg)
+            whatsapp_url = f"https://wa.me/{phone}?text={message}"
 
-        return super().form_valid(form)
+            return redirect(whatsapp_url)
 
-    def get_success_url(self):
-        return self.whatsapp_url
+        # ❌ No phone → go dashboard
+        return response
+  
+    
 
 class EntryDeleteView(LoginRequiredMixin, DeleteView):
     model = Entry

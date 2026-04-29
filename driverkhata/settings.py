@@ -129,3 +129,19 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Keep user logged in for 30 days
+SESSION_COOKIE_AGE = 60 * 60 * 24 * 30  
+
+# Extend session on every request
+SESSION_SAVE_EVERY_REQUEST = True  
+
+# IMPORTANT for HTTPS (Render)
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+ALLOWED_HOSTS = ['*']
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.onrender.com'
+]
