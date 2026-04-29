@@ -92,20 +92,9 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
+AUTH_PASSWORD_VALIDATORS = []
+  
+
 
 
 # Internationalization
@@ -130,18 +119,13 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Keep user logged in for 30 days
-SESSION_COOKIE_AGE = 60 * 60 * 24 * 30  
 
-# Extend session on every request
-SESSION_SAVE_EVERY_REQUEST = True  
 
-# IMPORTANT for HTTPS (Render)
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+# Session ends when browser/app closes
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
-ALLOWED_HOSTS = ['*']
+# Short session time (optional safety)
+SESSION_COOKIE_AGE = 300   # 5 minutes (you can increase if needed)
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://*.onrender.com'
-]
+# Do NOT extend session automatically
+SESSION_SAVE_EVERY_REQUEST = False

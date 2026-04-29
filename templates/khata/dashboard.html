@@ -67,4 +67,23 @@
 
 </div>
 
+<form action="/delete-account/" method="post" onsubmit="return confirmDelete()">
+    {% csrf_token %}
+    <button style="
+        background: red;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+    ">
+        🗑 Delete Account
+    </button>
+</form>
+
+<script>
+function confirmDelete() {
+    return confirm("Are you sure? This will delete your account permanently!");
+}
+</script>
 {% endblock %}

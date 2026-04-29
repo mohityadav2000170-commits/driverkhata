@@ -1,173 +1,158 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login</title>
+    <title>Auth</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
-            font-family: Arial;
-            background: var(--bg);
-            color: var(--text);
+            font-family: 'Segoe UI', sans-serif;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-        }
 
-        :root {
-            --bg: #f5f5f5;
-            --card: white;
-            --text: black;
-        }
-
-        body.dark {
-            --bg: #121212;
-            --card: #1e1e1e;
-            --text: white;
+            /* 🔥 CLEAN GRADIENT */
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
         }
 
         .card {
-            background: var(--card);
-            padding: 40px;
-            border-radius: 12px;
             width: 320px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 25px;
+            border-radius: 16px;
+
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(15px);
+
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+
+            animation: fadeUp 0.5s ease;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         h2 {
             text-align: center;
+            color: white;
             margin-bottom: 20px;
-            color: #2e7d32;
         }
 
         .field {
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .field input {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            background: transparent;
-            color: inherit;
-        }
-
-        .field label {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            color: gray;
+            padding: 12px 40px 12px 12px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
             font-size: 14px;
-            transition: 0.2s;
-            background: var(--card);
-            padding: 0 5px;
         }
 
-        .field input:focus + label,
-        .field input:not(:placeholder-shown) + label {
-            top: -8px;
-            font-size: 12px;
-            color: #2e7d32;
-        }
-
-        .eye {
+        .field i {
             position: absolute;
-            right: 10px;
-            top: 10px;
+            right: 12px;
+            top: 12px;
+            color: #555;
             cursor: pointer;
         }
 
         button {
             width: 100%;
-            padding: 10px;
-            background: #2e7d32;
-            color: white;
+            padding: 12px;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
+            background: #00c853;
+            color: white;
             font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.2s;
         }
 
-        .error {
-            color: red;
-            font-size: 13px;
-            margin-bottom: 10px;
+        button:hover {
+            background: #00b248;
         }
 
-        .signup-link {
+        button:active {
+            transform: scale(0.96);
+        }
+
+        .link {
             text-align: center;
-            margin-top: 10px;
+            margin-top: 15px;
+            color: white;
+            font-size: 14px;
         }
 
-        .signup-link a {
-            color: #2e7d32;
+        .link a {
+            color: #00e676;
             text-decoration: none;
             font-weight: bold;
         }
 
-        .toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            cursor: pointer;
+        .error {
+            color: #ff5252;
+            font-size: 13px;
+            margin-bottom: 10px;
+            text-align: center;
         }
     </style>
 </head>
 
 <body>
 
-<i class="fa-solid fa-moon toggle" onclick="toggleDark()"></i>
-
 <div class="card">
 
     <h2>Login</h2>
 
     {% if form.errors %}
-        <div class="error">
-            Invalid username or password
-        </div>
+        <div class="error">Invalid credentials</div>
     {% endif %}
 
     <form method="post">
         {% csrf_token %}
 
-        <!-- Username -->
         <div class="field">
-            <input type="text" name="username" required placeholder=" ">
-            <label>Username</label>
+            <input type="text" name="username" placeholder="Username" required>
         </div>
 
-        <!-- Password -->
         <div class="field">
-            <input type="password" id="pass" name="password" required placeholder=" ">
-            <label>Password</label>
-            <i class="fa-solid fa-eye eye" onclick="togglePass()"></i>
+            <input type="password" id="pass" name="password" placeholder="Password" required>
+            <i class="fa-solid fa-eye" onclick="togglePass()"></i>
         </div>
 
         <button type="submit">Login</button>
     </form>
 
-    <div class="signup-link">
-        <p>Don't have an account?</p>
-        <a href="/signup/">Create Account</a>
+    <div class="link">
+        Don't have an account? <a href="/signup/">Signup</a>
     </div>
 
 </div>
 
 <script>
 function togglePass() {
-    let input = document.getElementById("pass");
-    input.type = input.type === "password" ? "text" : "password";
-}
-
-function toggleDark() {
-    document.body.classList.toggle("dark");
+    let p = document.getElementById("pass");
+    p.type = p.type === "password" ? "text" : "password";
 }
 </script>
 

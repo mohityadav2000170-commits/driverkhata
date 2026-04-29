@@ -9,6 +9,18 @@ from django.views.generic import DeleteView
 from django.contrib.auth.forms import UserCreationForm
 from urllib.parse import quote
 from django.shortcuts import redirect
+from django.contrib.auth import logout
+
+
+
+def delete_account(request):
+    if request.method == "POST":
+        user = request.user
+        logout(request)   # logout first
+        user.delete()     # delete user
+        return redirect('/accounts/login/')
+    
+    return redirect('/')  # prevent GET access
 
 class DashboardView(LoginRequiredMixin, ListView):
     model = Entry
@@ -99,3 +111,6 @@ class SignupView(CreateView):
         for field in form.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
         return form
+
+
+    
